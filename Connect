@@ -1,0 +1,53 @@
+
+package CRS;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author hp
+ */
+public class Connect {
+       Connection conn;
+   Statement st;
+    ResultSet rs;
+
+    public void connect() {
+        try {
+            //driver for Access
+            //String driver = "sun.jdbc.odbc.JdbcOdbcDriver";
+            // driver for sql
+             String driver= "com.mysql.jdbc.Driver";
+
+            Class.forName(driver);
+                      //  String db = "jdbc:odbc:ww";
+
+      String db = "jdbc:mysql://localhost/tc";
+
+     conn = DriverManager.getConnection(db, "Reem", "123456");
+         //   st = conn.createStatement();
+            st=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void disconnect() {
+        try {
+            conn.close();
+          st.close();
+            rs.close();
+        } catch (Exception ex) {
+        }
+    }
+}
